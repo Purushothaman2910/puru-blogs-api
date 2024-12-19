@@ -38,6 +38,14 @@ UserSchema.pre('save' ,async function (next) {
     }
 })
 
+UserSchema.statics.findByEmail = async function (email){
+    return await this.findOne({email : email})
+}
+
+UserSchema.methods.validatePassword = async function (password) {
+    return await bcrypt.compare(password,this.password)
+}
+
 const UserModel = model('user',UserSchema);
 
 export default UserModel ;
