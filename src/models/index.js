@@ -1,5 +1,5 @@
-import UserModel from "./blogs.model.js";
-import BlogModel from "./user.model.js";
+import BlogModel from "./blogs.model.js";
+import UserModel from "./user.model.js";
 
 export {
     UserModel ,

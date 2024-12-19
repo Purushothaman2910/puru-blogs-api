@@ -13,7 +13,7 @@ app.use(cors({
 }))
 app.use(express.json())
 
-// logger
+// ------------------- logger --------------------------------
 
 import morgan from 'morgan';
 import { logger } from './src/utils/index.js';
@@ -36,15 +36,14 @@ app.use(morgan(morganFormat, {
 
 
 
-// routers 
-import { HealthCheckRoutes } from './src/routes/index.js'
+// ------------------------ routers ------------------------------
+import { HealthCheckRoutes, UserRoutes } from './src/routes/index.js'
 
 app.use(`/api/${API_VERSION}/`, HealthCheckRoutes)
+app.use(`/api/${API_VERSION}/user/` , UserRoutes)
 
 
-// error handler
 import { ErrorHandler } from './src/middlewares/index.js'
-
 app.use(ErrorHandler)
 
 

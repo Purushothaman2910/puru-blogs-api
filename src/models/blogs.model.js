@@ -1,25 +1,37 @@
-import { Schema , model } from "mongoose";
+import { model , Schema } from "mongoose";
 
-const UserSchema = new Schema({
-    name : {
+const BlogSchema = new Schema({
+    slug : {
         type : String ,
-        required : true ,
+        required : [true , 'slug is required feild'] ,
+        trim : true 
+    } ,
+    ownerId : {
+        type : Schema.Types.ObjectId ,
+        ref : 'user'
+    },
+    title : {
+        type : String ,
+        required :[true , "title is a required feild"] ,
         trim : true
     } ,
-    email : {
+    content : {
         type : String ,
-        required : true ,
-        trim : true ,
-    },
-    password : {
+        required :[true , "content is a required feild"] ,
+    } ,
+    featuredImage : {
         type : String ,
-        required : true ,
         trim : true 
+    },
+    status : {
+        type : String,
+        enum : ['active' , 'inactive'] ,
+        default : 'active'
     }
 },{
     timestamps : true
 });
 
-const UserModel = model(UserSchema , 'user');
+const BlogModel = model('blog',BlogSchema) ;
 
-export default UserModel ;
+export default BlogModel ;

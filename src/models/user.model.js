@@ -1,37 +1,43 @@
-import { model , Schema } from "mongoose";
+import { Schema , model } from "mongoose";
+import bcrypt from 'bcryptjs'
 
-const BlogSchema = new Schema({
-    slug : {
+const UserSchema = new Schema({
+    name : {
         type : String ,
-        required : [true , 'slug is required feild'] ,
-        trim : true 
-    } ,
-    ownerId : {
-        type : Schema.Types.ObjectId ,
-        ref : 'user'
-    },
-    title : {
-        type : true ,
-        required :[true , "title is a required feild"] ,
+        required : true ,
         trim : true
     } ,
-    content : {
+    email : {
         type : String ,
-        required :[true , "content is a required feild"] ,
-    } ,
-    featuredImage : {
-        type : String ,
-        trim : true 
+        required : true ,
+        trim : true ,
     },
-    status : {
-        type : String,
-        enum : ['active' , 'inactive'] ,
-        default : 'active'
+    password : {
+        type : String ,
+        required : true ,
+        trim : true 
     }
 },{
     timestamps : true
 });
 
-const BlogModel = model(BlogSchema , 'blog') ;
+async function hashPassword(passWord){
+    let saltRounds = 10 ;
+    return await bcrypt.hash(passWord , saltRounds)
+}
 
-export default BlogModel ;
+UserSchema.pre('save' ,async function (next) {
+    try { 
+        let user = this ;
+        if(user.isModified('password')) {
+            user.password = await hashPassword(user.password) ;
+        }
+        next()
+    } catch (error) {
+        next(error)
+    }
+})
+
+const UserModel = model('user',UserSchema);
+
+export default UserModel ;
