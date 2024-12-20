@@ -37,14 +37,15 @@ app.use(morgan(morganFormat, {
 
 
 // ------------------------ routers ------------------------------
-import { HealthCheckRoutes, UserRoutes } from './src/routes/index.js'
+import { HealthCheckRoutes, UserRoutes,BlogRoutes } from './src/routes/index.js';
 
-app.use(`/api/${API_VERSION}/`, HealthCheckRoutes)
-app.use(`/api/${API_VERSION}/user/` , UserRoutes)
+app.use(`/api/${API_VERSION}/`, HealthCheckRoutes);
+app.use(`/api/${API_VERSION}/user/` , UserRoutes);
+app.use(`/api/${API_VERSION}/blogs/` , BlogRoutes);
 
 
-import { ErrorHandler } from './src/middlewares/index.js'
-app.use(ErrorHandler)
+import { ErrorHandler } from './src/middlewares/index.js';
+app.use(ErrorHandler);
 
 
 

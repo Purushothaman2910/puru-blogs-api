@@ -23,6 +23,11 @@ const BlogSchema = new Schema({
         type : String ,
         trim : true 
     },
+    publicId : {
+        type : String ,
+        trim  : true ,
+        required : [function () {return this.featuredImage} , "featured public id is required please fill it"]
+    },
     status : {
         type : String,
         enum : ['active' , 'inactive'] ,
