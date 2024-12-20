@@ -1,4 +1,5 @@
 import { model , Schema } from "mongoose";
+import {deletImage} from '../utils/index.js'
 
 const BlogSchema = new Schema({
     slug : {
@@ -52,6 +53,21 @@ BlogSchema.methods.setInactive = async function () {
     blog.status = 'inactive' ;
     await blog.save()
     return true ;
+}
+
+BlogSchema.methods.deleteFeaturedImage = async function(){
+    let document = this ;
+    if(!document.featuredImage || !document.publicId){
+        return false
+    }
+    let result = await deletImage(document.publicId) ;
+    if(!result){
+        return false
+    }
+    document.featuredImage = '' ;
+    document.publicId = '';
+    await document.save()
+    return true
 }
 
 const BlogModel = model('blog',BlogSchema) ;
