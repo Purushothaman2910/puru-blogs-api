@@ -37,6 +37,23 @@ const BlogSchema = new Schema({
     timestamps : true
 });
 
+
+BlogSchema.statics.getAllPosts = async (query = {} , project = {}) =>{
+    return this.find(query , project)
+}
+
+BlogSchema.statics.getActivePost = async function () {
+    await this.find({status : "active"})
+}
+
+
+BlogSchema.methods.setInactive = async function () {
+    let blog = this ;
+    blog.status = 'inactive' ;
+    await blog.save()
+    return true ;
+}
+
 const BlogModel = model('blog',BlogSchema) ;
 
 export default BlogModel ;
