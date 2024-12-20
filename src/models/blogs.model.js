@@ -39,7 +39,7 @@ const BlogSchema = new Schema({
 });
 
 
-BlogSchema.statics.getAllPosts = async (query = {} , project = {}) =>{
+BlogSchema.statics.getAllPosts = async function (query = {} , project = {}){
     return this.find(query , project)
 }
 
